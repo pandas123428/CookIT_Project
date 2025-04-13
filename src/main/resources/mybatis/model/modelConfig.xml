@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+	
+		<typeAlias type="com.cookit.user.vo.UserVO"  alias="userVO" />
+		<typeAlias type="com.cookit.product.vo.ProductVO"  alias="productVO"/>
+		<typeAlias type="com.cookit.product.vo.ProductInformVO"  alias="productInformVO"/>
+		<typeAlias type="com.cookit.product.vo.CategoryVO"  alias="categoryVO"/>
+		<typeAlias type="com.cookit.cart.vo.CartVO"  alias="cartVO"/>
+		<typeAlias type="com.cookit.order.vo.OrderVO"  alias="orderVO"/>
+		<typeAlias type="com.cookit.review.vo.ReviewVO"  alias="reviewVO"/>
+
+		
+	</typeAliases>
+</configuration>

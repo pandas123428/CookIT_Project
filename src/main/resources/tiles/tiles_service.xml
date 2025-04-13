@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+    <definition name="/service/center" extends="baseLayout">
+       <put-attribute name="title" value="고객센터 메인 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/service/center.jsp" />
+    </definition>
+    
+    <definition name="/service/faq" extends="baseLayout">
+       <put-attribute name="title" value="자주묻는 질문 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/service/faq.jsp" />
+    </definition>
+    
+     <definition name="/service/faq2" extends="baseLayout">
+       <put-attribute name="title" value="자주묻는 질문 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/service/faq2.jsp" />
+    </definition>
+    
+    <definition name="/service/guide" extends="baseLayout">
+       <put-attribute name="title" value="이용안내 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/service/guide.jsp" />
+    </definition>
+    
+    <definition name="/service/notice" extends="baseLayout">
+       <put-attribute name="title" value="공지사항 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/service/notice.jsp" />
+    </definition>
+    
+        <definition name="/service/notice_view" extends="baseLayout">
+       <put-attribute name="title" value="공지사항뷰 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/service/notice_view.jsp" />
+    </definition>
+        
+     <definition name="/service/delivery" extends="baseLayout">
+       <put-attribute name="title" value="배송안내 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/service/delivery.jsp" />
+    </definition>
+
+</tiles-definitions>

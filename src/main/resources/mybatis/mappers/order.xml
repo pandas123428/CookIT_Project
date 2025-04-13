@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.order">
+	<!--  리절트 맵 정의  -->
+	<resultMap id="orderResult" type="orderVO">
+	<result property="product_id" column="product_id"/>
+	<result property="quantity" column="quantity"/>
+	<result property="each_order_id" column="each_order_id"/>
+	<result property="order_price" column="order_price"/>
+	<result property="order_id" column="order_id"/>
+	<result property="user_id" column="user_id"/>
+	<result property="order_date" column="order_date"/>
+	<result property="order_state" column="order_state"/>
+	<result property="payment" column="payment"/>
+	<result property="delivery_price" column="delivery_price"/>
+	<result property="t_order_price" column="t_order_price"/>
+	<result property="cash_point" column="cash_point"/>
+	<result property="use_point" column="use_point"/>
+	<result property="other_discount_price" column="other_discount_price"/>
+	<result property="t_discount_price" column="t_discount_price"/>
+	<result property="f_t_order_price" column="f_t_order_price"/>
+	<result property="delivery_id" column="delivery_id"/>
+	<result property="phone_num" column="phone_num"/>
+	<result property="receiver_name" column="receiver_name"/>
+	<result property="desired_delivery_date" column="desired_delivery_date"/>
+	<result property="delivery_method" column="delivery_method"/>
+	<result property="road_address" column="road_address"/>
+	<result property="namuji_address" column="namuji_address"/>
+	<result property="zipcode" column="zipcode"/>
+	<result property="delivery_request" column="delivery_request"/>
+	</resultMap>
+	
+	<insert id="insertNewOrder_history" parameterType="orderVO">
+	<![CDATA[ 
+	 INSERT INTO order_history 
+	 (user_id, order_state, payment, delivery_price,
+	 t_order_price, cash_point, use_point, other_discount_price,
+	 t_discount_price, f_t_order_price) values(#{user_id}, #{order_state}, #{payment}, #{delivery_price},
+	 #{t_order_price}, #{cash_point}, #{use_point}, #{other_discount_price}, #{t_discount_price}, #{f_t_order_price})
+	]]>
+	</insert>
+	
+	<update id="addCash_point" parameterType="orderVO">
+	<![CDATA[ 
+	 UPDATE user SET
+	 cash_point = cash_point + #{cash_point}
+	 WHERE user_id = #{user_id} ]]>
+	</update>
+	
+	<update id="subCash_point" parameterType="orderVO">
+	<![CDATA[ 
+	 UPDATE user SET
+	 cash_point = cash_point - #{use_point}
+	 WHERE user_id = #{user_id}
+	]]>
+	</update>
+	
+	<update id="subProduct_amount" parameterType="orderVO">
+	<![CDATA[ 
+	 UPDATE product SET
+	 product_amount = product_amount - #{quantity}
+	 WHERE product_id = #{product_id}
+	]]>
+	</update>
+	
+	<select id="selectOrder_id" resultType="int">
+	<![CDATA[ 
+	 SELECT order_id
+	 FROM order_history
+	 ORDER BY order_id DESC limit 1;
+	]]>
+	</select>
+	
+	<select id="selectOrder_date" resultType="String">
+	<![CDATA[ 
+	 SELECT order_date
+	 FROM order_history
+	 WHERE order_id = #{order_id}
+	]]>
+	</select>
+	
+	<insert id="insertNewOrder_product" parameterType="orderVO">
+		<![CDATA[
+		 INSERT INTO order_product
+		 (each_order_id, order_id, product_id, quantity, order_price)
+		 values(#{each_order_id}, #{order_id}, #{product_id}, #{quantity}, #{order_price})
+		]]>
+	</insert>
+	
+
+	<insert id="insertNewDelivery_address" parameterType="orderVO">
+		<![CDATA[
+		 INSERT INTO delivery_address
+		 (order_id, phone_num, receiver_name, desired_delivery_date,
+		 delivery_method, road_address, namuji_address, zipcode, delivery_request)
+		 values(#{order_id}, #{phone_num}, #{receiver_name}, #{desired_delivery_date},
+		 #{delivery_method}, #{road_address}, #{namuji_address}, #{zipcode}, #{delivery_request})
+		]]>
+	</insert>	
+	
+	<select id="selectOrderList" parameterType="int" resultType="orderVO">
+	<![CDATA[ 
+	 SELECT *
+	 FROM order_product
+	 WHERE order_id = #{order_id}
+	]]>
+	</select>
+			
+</mapper>

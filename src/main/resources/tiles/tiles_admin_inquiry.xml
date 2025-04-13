@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+	<definition name="/admin/inquiry/adminInquiryList" extends="baseLayout">
+		<put-attribute name="title" value="관리자 문의 내역 페이지" />
+		<put-attribute name="body" value="/WEB-INF/view/admin/inquiry/adminInquiryList.jsp" />
+	</definition>
+	
+	<definition name="/admin/inquiry/adminInquiryDetail" extends="baseLayout">
+		<put-attribute name="title" value="관리자 문의 답변 페이지" />
+		<put-attribute name="body" value="/WEB-INF/view/admin/inquiry/adminInquiryDetail.jsp" />
+	</definition>
+</tiles-definitions>

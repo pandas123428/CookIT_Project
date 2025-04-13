@@ -1,0 +1,68 @@
+/* 체크박스 기본 숨김 */
+.custom-checkbox .checkbox {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+
+/* 체크박스 라벨 스타일 (이미지 체크박스) */
+.custom-checkbox input[type="checkbox"] + label {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    vertical-align: top;
+    padding-left: 26px;
+    min-height: 18px;
+}
+
+/* 체크박스 이미지 스타일 */
+.custom-checkbox .checkbox + label:before {
+    border-radius: 100%;
+    background: #dfdada url(../image/check-box.png);
+    display: block;
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;  /* 체크박스 크기 조절 */
+    height: 22px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* 체크되었을 때의 체크박스 이미지 */
+.custom-checkbox .checkbox:checked + label:before {
+    background: #FF6001 url(../image/check-box.png) no-repeat center;
+    border: 1px solid #FF6001;
+    background-size: cover;
+}
+
+/* 장바구니 옵션 영역 스타일 */
+.renewal-cart {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #000;
+}
+
+/* 삭제 버튼 컨테이너 (간격 조정) */
+.cart-delete {
+    display: flex;
+    gap: 20px; /* 버튼 간격 증가 */
+}
+
+/* 삭제 버튼 스타일 */
+.btn-cart-delete {
+    background: none; /* 배경 제거 */
+    border: none; /* 테두리 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    font-size: 16px; /* 글씨 크기 조정 */
+    color: #000; /* 글씨 색상 */
+    cursor: pointer; /* 클릭 가능하도록 설정 */
+}
+
+/* 버튼 내부 텍스트 스타일 */
+.btn-cart-delete span {
+    display: inline-block;
+    padding: 8px 12px; /* 텍스트 주변 여백 추가 */
+}

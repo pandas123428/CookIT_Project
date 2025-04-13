@@ -1,0 +1,39 @@
+/* 푸터 전체 스타일 */
+.footer {
+  width: 100%;
+  text-align: center; /* 텍스트 중앙 정렬 */
+  margin: 0 auto; /* 가운데 정렬 */
+  padding: 20px 0; /* 상하 패딩 추가 */
+  background-color: #f8f8f8; /* 배경색 추가 (선택 사항) */
+  border-top: 1px solid #e0e0e0; /* 상단 경계선 추가 (선택 사항) */
+}
+
+/* 푸터 링크 목록 스타일 */
+.footer ul {
+  list-style: none; /* 목록 스타일 제거 */
+  padding: 0;
+  margin: 0 0 10px 0; /* 하단 여백 추가 */
+}
+
+.footer ul li {
+  display: inline-block; /* 가로로 나열 */
+  margin: 0 10px; /* 각 항목 간격 */
+}
+
+.footer ul li a {
+  text-decoration: none; /* 링크 밑줄 제거 */
+  color: #333; /* 링크 색상 */
+  font-size: 14px; /* 글자 크기 */
+}
+
+.footer ul li a:hover {
+  color: #f56a00; /* 호버 시 색상 변경 */
+}
+
+/* 푸터 내용 스타일 */
+.footer-content {
+  font-size: 12px; /* 글자 크기 */
+  color: #666; /* 글자 색상 */
+  line-height: 1.6; /* 줄 간격 */
+  margin-top: 10px; /* 상단 여백 추가 */
+}

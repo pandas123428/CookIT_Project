@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.admin_product">
+
+<!-- 리절트 맵 정의 -->	
+<resultMap id="prodcutResult" type="productVO">
+	<result property="product_id" column="product_id"/>
+	<result property="product_name" column="product_name"/>
+	<result property="price" column="price"/>
+	<result property="product_amount" column="product_amount"/>
+	<result property="category_id" column="category_id"/>
+	<result property="product_inf_image" column="product_inf_image"/>
+	<result property="product_image" column="product_image"/>
+	<result property="reg_id" column="reg_id"/>
+	<result property="post_date" column="post_date"/>
+</resultMap>
+
+<resultMap id="categoryResult" type="categoryVO">
+	<result property="category_id" column="category_id"/>
+	<result property="category_name" column="category_name"/>
+</resultMap>
+
+<resultMap id="prodcutInformResult" type="productInformVO">
+	<result property="product_name" column="product_name"/>
+	<result property="product_ex_date" column="product_ex_date"/>
+	<result property="ingredient_info" column="ingredient_info"/>
+	<result property="GMO_status" column="GMO_status"/>
+	<result property="nutrition_facts" column="nutrition_facts"/>
+	<result property="producer" column="producer"/>
+	<result property="product_addr" column="product_addr"/>
+	<result property="product_weight" column="product_weight"/>
+	<result property="delivery_area" column="delivery_area"/>
+	<result property="delivery_method" column="delivery_method"/>
+	<result property="import_notice" column="import_notice"/>
+	<result property="special_category" column="special_category"/>
+	<result property="customer_service" column="customer_service"/>
+	<result property="warnings" column="warnings"/>
+</resultMap>
+
+	  <insert id="insertProduct"  parameterType="productVO" >
+  <![CDATA[
+    	insert into product(
+    					 product_name,    					
+    					 price,
+    					 product_amount,
+    					 category_id,
+    					 product_inf_image,
+    					 product_image,
+    					 reg_id
+    					 )
+							 values(#{product_name},
+									#{price},
+                                 	#{product_amount},
+                                   	#{category_id},
+                                   	#{product_inf_image},
+                                    #{product_image},
+                                    #{reg_id}
+                                    )                               
+   ]]>      
+  </insert>
+  
+   <insert id="insertInform"  parameterType="productInformVO" >
+  <![CDATA[
+    	insert into product_inform(
+    					 product_name,    					
+    					 product_ex_date,
+    					 ingredient_info,
+    					 GMO_status,
+    					 nutrition_facts,
+    					 producer,
+    					 product_addr,
+    					 product_weight,
+    					 delivery_area,
+    					 delivery_method,
+    					 import_notice,
+    					 special_category,
+    					 customer_service,
+    					 warnings
+    					 )
+							 values(#{product_name},
+									#{product_ex_date},
+                                 	#{ingredient_info},
+                                   	#{GMO_status},
+                                   	#{nutrition_facts},
+                                    #{producer},
+                                    #{product_addr},
+                                    #{product_weight},
+                                    #{delivery_area},
+                                    #{delivery_method},
+                                    #{import_notice},
+                                    #{special_category},
+                                    #{customer_service},
+                                    #{warnings}
+                                    )                               
+   ]]>      
+  </insert>
+  
+  <select id="findCategory" parameterType="String" resultType="int">
+    <![CDATA[
+    	select category_id 
+    	from category
+    	where category_name = #{category_name}
+      ]]> 
+  </select>
+  
+  <select id="selectProductId" parameterType="String" resultType="int">
+  	<![CDATA[
+    	select product_id from product
+    	where product_name = #{product_name}
+      ]]> 
+  </select>
+  
+  <select id="selectProduct" parameterType="int" resultType="productVO">
+  	<![CDATA[
+    	SELECT * FROM product 
+    	where product_id = #{product_id}
+      ]]> 
+  </select>
+  
+  <select id="selectProductInform" parameterType="String" resultType="productInformVO">
+  	<![CDATA[
+    	SELECT * FROM product_inform 
+    	where product_name = (SELECT product_name
+    	FROM product
+    	WHERE product_id = #{product_id}) 
+      ]]> 
+  </select>
+  
+  <select id="selectAllProductList" resultType="productVO">
+      <![CDATA[
+      	SELECT * FROM product
+       ]]>
+  </select>
+  
+  <delete id="deleteProductInform" parameterType="int">
+  	  <![CDATA[
+    	DELETE FROM product_inform
+		WHERE product_name = 
+		(SELECT product_name FROM product
+		WHERE product_id = #{product_id})
+      ]]> 
+  </delete>
+  
+  <delete id="deleteProduct" parameterType="int">
+  	  <![CDATA[
+    	DELETE FROM product 
+		WHERE product_id = #{product_id};
+      ]]> 
+  </delete>
+  
+   <select id="selectImageName" parameterType="int" resultType="String">
+  	<![CDATA[
+    	select product_image from product
+    	where product_id = #{product_id}
+      ]]> 
+  </select>
+  
+   <select id="selectImageInform" parameterType="int" resultType="String">
+  	<![CDATA[
+    	select product_inf_image from product
+    	where product_id = #{product_id}
+      ]]> 
+  </select>
+  
+
+	<update id="updateProduct" parameterType="productVO">
+	  <![CDATA[
+    	UPDATE product
+    	SET
+    	price = #{price},
+    	product_amount = #{product_amount},
+    	category_id = #{category_id},
+    	product_inf_image = #{product_inf_image},
+    	product_image = #{product_image}
+    	WHERE product_id = #{product_id}
+      ]]>
+	</update>
+	
+	<update id="updateProductInform" parameterType="productInformVO">
+	  <![CDATA[
+		UPDATE product_inform
+	    SET
+	    product_ex_date = #{product_ex_date},
+	    ingredient_info = #{ingredient_info},
+	    GMO_status = #{GMO_status},
+	    nutrition_facts = #{nutrition_facts},
+	    producer = #{producer},
+	    product_addr = #{product_addr},
+	    product_weight = #{product_weight},
+	    delivery_area = #{delivery_area},
+	    delivery_method = #{delivery_method},
+	    import_notice = #{import_notice},
+	    special_category = #{special_category},
+	    customer_service = #{customer_service},
+	    warnings = #{warnings}
+	    WHERE product_name = #{product_name}  	
+      ]]>
+	</update>
+	
+	<select id="selectProductRating" parameterType="int" resultType="float">
+       <![CDATA[
+        SELECT IFNULL(ROUND(SUM(rating)/ COUNT(*), 1), 0)
+        FROM review
+        WHERE product_id = #{product_id}
+       ]]>
+   </select>
+
+</mapper>
+

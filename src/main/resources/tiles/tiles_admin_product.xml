@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <definition name="/admin/adminProductMain" extends="baseLayout">
+       <put-attribute name="title" value="관리자 메인 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/admin/product/adminProductMain.jsp" />
+    </definition>
+    <definition name="/admin/goForm" extends="baseLayout">
+       <put-attribute name="title" value="새 상품 추가 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/admin/product/goForm.jsp" />
+    </definition>
+    <definition name="/admin/productList" extends="baseLayout">
+       <put-attribute name="title" value="상품 리스트 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/admin/product/productList.jsp" />
+    </definition>
+    <definition name="/admin/modifyForm" extends="baseLayout">
+       <put-attribute name="title" value="상품 수정 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/admin/product/modifyForm.jsp" />
+    </definition>
+<!--     <definition name="/admin/goods/modifyGoodsForm" extends="baseLayout">
+       <put-attribute name="title" value="상품 수정 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/admin/goods/modifyGoodsForm.jsp" />
+    </definition> -->
+</tiles-definitions>
+
+

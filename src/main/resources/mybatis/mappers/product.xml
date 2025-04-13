@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.product">
+	<!--  리절트 맵 정의  -->
+	<resultMap id="prodcutResult" type="productVO">
+		<result property="product_id" column="product_id"/>
+		<result property="product_name" column="product_name"/>
+		<result property="price" column="price"/>
+		<result property="product_amount" column="product_amount"/>
+		<result property="category_id" column="category_id"/>
+		<result property="product_inf_image" column="product_inf_image"/>
+		<result property="product_image" column="product_image"/>
+		<result property="reg_id" column="reg_id"/>
+		<result property="post_date" column="post_date"/>
+		<result property="rating" column="rating"/>
+	</resultMap>
+	<resultMap id="categoryResult" type="categoryVO">
+		<result property="category_id" column="category_id"/>
+		<result property="category_name" column="category_name"/>
+	</resultMap>
+	<resultMap id="prodcutInformResult" type="productInformVO">
+		<result property="product_name" column="product_name"/>
+		<result property="product_ex_date" column="product_ex_date"/>
+		<result property="ingredient_info" column="ingredient_info"/>
+		<result property="GMO_status" column="GMO_status"/>
+		<result property="nutrition_facts" column="nutrition_facts"/>
+		<result property="producer" column="producer"/>
+		<result property="product_addr" column="product_addr"/>
+		<result property="product_weight" column="product_weight"/>
+		<result property="delivery_area" column="delivery_area"/>
+		<result property="delivery_method" column="delivery_method"/>
+		<result property="import_notice" column="import_notice"/>
+		<result property="special_category" column="special_category"/>
+		<result property="customer_service" column="customer_service"/>
+		<result property="warnings" column="warnings"/>
+	</resultMap>
+	<resultMap id="reviewResult" type="reviewVO">
+		<result property="review_id" column="review_id"/>
+		<result property="product_id" column="product_id"/>
+		<result property="order_id" column="order_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="rating" column="rating"/>
+		<result property="comment" column="comment"/>
+		<result property="review_date" column="review_date"/>
+	</resultMap>
+	<select id="selectAllProductList" resultType="productVO">
+		<![CDATA[ SELECT * FROM product ORDER BY post_date DESC ]]>
+	</select>
+	<select id="selectProductDetail" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT * FROM product 
+		WHERE product_id = #{product_id} ]]>
+	</select>
+	<select id="selectProductName" parameterType="int" resultType="String">
+		<![CDATA[ SELECT product_name FROM product 
+		WHERE product_id = #{product_id} ]]>
+	</select>
+	<select id="selectProductImageName" parameterType="int" resultType="String">
+		<![CDATA[ SELECT product_image FROM product 
+		WHERE product_id = #{product_id} ]]>
+	</select>
+	<select id="selectProductInform" parameterType="int" resultType="productInformVO">
+		<![CDATA[ SELECT product_ex_date, ingredient_info, GMO_status, nutrition_facts,
+		 producer, product_addr, product_weight, delivery_area, delivery_method, 
+		 import_notice, special_category, customer_service, warnings
+		 from product p JOIN product_inform i ON p.product_name = i.product_name 
+		 WHERE product_id = #{product_id} ]]>
+	</select>
+	<select id="selectRelationProduct" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT * FROM product
+		 where category_id = ( SELECT category_id FROM product where product_id = #{product_id}) and product_id != #{product_id}
+		 ORDER BY post_date DESC LIMIT 4 ]]>
+	</select>
+	<select id="selectRecommnedProduct" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT * FROM product 
+		WHERE category_id = #{category_id} ORDER BY post_date DESC LIMIT 4 ]]>
+	</select>
+	<select id="selectNewProduct" resultType="productVO">
+		<![CDATA[ SELECT * FROM product 
+		WHERE DATE(post_date) BETWEEN DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY) AND DATE_ADD(DATE_SUB(CURDATE(),
+		INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 6 DAY) 
+		ORDER BY post_date DESC limit 4 ]]>
+	</select>
+	<select id="selectTwoProductCategory" resultType="productVO">
+		<![CDATA[ SELECT * FROM product
+		 WHERE category_id = 2 OR category_id = 3 
+		 ORDER BY post_date DESC ]]>
+	</select>
+	<select id="selectNormalProductCategory" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT * FROM product 
+		WHERE category_id = #{category_id}
+		ORDER BY post_date DESC ]]>
+	</select>
+	<select id="selectSearchProduct" parameterType="String" resultType="productVO">
+		<![CDATA[ SELECT * FROM product 
+		WHERE product_name LIKE CONCAT('%', #{searchWord}, '%') 
+		ORDER BY post_date DESC ]]>
+	</select>
+	<select id="selectProductRating" parameterType="int" resultType="float">
+		<![CDATA[ SELECT IFNULL(ROUND(SUM(rating)/ COUNT(*), 1), 0)
+		 FROM review WHERE product_id = #{product_id} ]]>
+	</select>
+	<select id="selectReviewList" parameterType="int" resultType="reviewVO">
+		<![CDATA[ SELECT * FROM review
+		 WHERE product_id = #{product_id} ]]>
+	</select>
+	<select id="selectSortedProductLatestAll" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price,
+		 p.product_amount, p.category_id, p.product_inf_image, p.product_image, p.reg_id,
+		 p.post_date, CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating
+		 FROM product p JOIN review r ON p.product_id = r.product_id
+		 GROUP BY p.product_id
+		 ORDER BY post_date DESC; ]]>
+	</select>
+	<select id="selectSortedProductLatestTwo" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, 
+		p.product_amount, p.category_id, p.product_inf_image, p.product_image, 
+		p.reg_id, p.post_date, CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		WHERE category_id = 2 OR category_id = 3 
+		GROUP BY p.product_id 
+		ORDER BY post_date DESC; ]]>
+	</select>
+	<select id="selectSortedProductLatest" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, p.product_amount, 
+		p.category_id, p.product_inf_image, p.product_image, p.reg_id,
+		p.post_date, CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		WHERE category_id = #{category_id} 
+		GROUP BY p.product_id 
+		ORDER BY post_date DESC; ]]>
+	</select>
+	<select id="selectSortedProductRatingHighAll" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, p.product_amount, 
+		p.category_id, p.product_inf_image, p.product_image, p.reg_id, p.post_date, 
+		CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		GROUP BY p.product_id 
+		ORDER BY rating DESC ]]>
+	</select>
+	<select id="selectSortedProductRatingHighTwo" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, 
+		p.product_amount, p.category_id, p.product_inf_image, p.product_image, 
+		p.reg_id, p.post_date, CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		WHERE p.category_id = 2 OR p.category_id = 3 
+		GROUP BY p.product_id 
+		ORDER BY rating DESC; ]]>
+	</select>
+	<select id="selectSortedProductRatingHigh" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, p.product_amount, 
+		p.category_id, p.product_inf_image, p.product_image, p.reg_id, p.post_date, 
+		CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		WHERE p.category_id = #{category_id} 
+		GROUP BY p.product_id 
+		ORDER BY rating DESC ]]>
+	</select>
+	<select id="selectSortedProductRatingLowAll" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, p.product_amount, 
+		p.category_id, p.product_inf_image, p.product_image, p.reg_id, p.post_date, 
+		CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		GROUP BY p.product_id 
+		ORDER BY rating ASC ]]>
+	</select>
+	<select id="selectSortedProductRatingLowTwo" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, p.product_amount, 
+		p.category_id, p.product_inf_image, p.product_image, p.reg_id, p.post_date, 
+		CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		WHERE p.category_id = 2 OR p.category_id = 3 
+		GROUP BY p.product_id 
+		ORDER BY rating ASC ]]>
+	</select>
+	<select id="selectSortedProductRatingLow" parameterType="int" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, p.product_amount, p.category_id, 
+		p.product_inf_image, p.product_image, p.reg_id, p.post_date, 
+		CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		WHERE p.category_id = #{category_id} 
+		GROUP BY p.product_id 
+		ORDER BY rating ASC ]]>
+	</select>
+	<select id="selectSortedSeachingLatest" parameterType="String" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, p.product_amount, p.category_id, 
+		p.product_inf_image, p.product_image, p.reg_id, p.post_date, 
+		CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		WHERE product_name LIKE CONCAT('%', #{searchWord}, '%') 
+		GROUP BY p.product_id 
+		ORDER BY p.post_date DESC ]]>
+	</select>
+	<select id="selectSortedSeachingRatingHigh" parameterType="String" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, p.product_amount, p.category_id, 
+		p.product_inf_image, p.product_image, p.reg_id, p.post_date, 
+		CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		WHERE product_name LIKE CONCAT('%', #{searchWord}, '%') 
+		GROUP BY p.product_id 
+		ORDER BY rating DESC ]]>
+	</select>
+	<select id="selectSortedSeachingRatingLow" parameterType="String" resultType="productVO">
+		<![CDATA[ SELECT p.product_id, p.product_name, p.price, p.product_amount, p.category_id, 
+		p.product_inf_image, p.product_image, p.reg_id, p.post_date, 
+		CAST(sum(rating) / count(*) AS DECIMAL(2, 1)) AS rating 
+		FROM product p JOIN review r ON p.product_id = r.product_id 
+		WHERE product_name LIKE CONCAT('%', #{searchWord}, '%') 
+		GROUP BY p.product_id 
+		ORDER BY rating ASC ]]>
+	</select>
+</mapper>

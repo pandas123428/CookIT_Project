@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.admin_user">
+	<resultMap id="userResult" type="userVO">
+		<result property="user_id" column="user_id" />
+		<result property="user_pw" column="user_pw" />
+		<result property="username" column="user_name" />
+		<result property="gender" column="gender" />
+
+		<result property="phone_num" column="phone_num" />
+
+		<result property="email1" column="email1" />
+		<result property="email2" column="email2" />
+
+		<result property="zipcode" column="zipcode" />
+		<result property="roadAddress" column="roadAddress" />
+		<result property="jibunAddress" column="jibunAddress" />
+		<result property="namujiAddress" column="namujiAddress" />
+	</resultMap>
+	<select id="listUser" resultMap="userResult"
+		parameterType="java.util.HashMap">
+
+		SELECT * FROM user
+
+		<!-- 오라클 쿼리 select * from ( select rowNum as recNum,t.* from ( select * 
+			from t_shoping_user where to_char(joinDate,'yyyy-mm-dd') between #{beginDate} 
+			and #{endDate} <if test="search_type=='user_id'"> AND user_id=#{search_word} 
+			</if> <if test="search_type=='user_name'"> AND user_name=#{search_word} </if> 
+			<if test="search_type=='user_hp_num'"> AND hp1||hp2||hp3=#{search_word} </if> 
+			order by joinDate desc ) t ) where recNum between (#{chapter}-1)*100+ (#{pageNum}-1)*10+1 
+			and (#{chapter}-1)*100+(#{pageNum})*10 -->
+	</select>
+
+	<select id="userDetail" resultMap="userResult"
+		parameterType="String">
+	    <![CDATA[
+		    select * from user
+            where user_id=#{user_id}
+    	]]>
+	</select>
+
+
+	<update id="modifyuserInfo" parameterType="java.util.HashMap">
+		update user
+		<set>
+			<if test=" user_id!='' and user_id!=null">
+				user_id=#{user_id},
+			</if>
+			<if test=" user_pw!='' and user_pw!=null">
+				user_pw=#{user_pw},
+			</if>
+			<if test=" user_gender!='' and user_gender!=null">
+				gender=#{gender},
+			</if>
+			<if test=" phone_num!='' and phone_num!=null">
+				phone_num=#{phone_num},
+			</if>
+
+			<if test=" userName!='' and yserName!=null">
+				userName=#{userName},
+			</if>
+			<if test=" email1!='' and email1!=null">
+				email1=#{email1},
+			</if>
+			<if test=" email2!='' and email2!=null">
+				email2=#{email2},
+			</if>
+			<if test=" zipcode!='' and zipcode!=null">
+				zipcode=#{zipcode},
+			</if>
+			<if test=" roadAddress!='' and roadAddress!=null">
+				roadAddress=#{roadAddress},
+			</if>
+			<if test=" jibunAddress!='' and jibunAddress!=null">
+				jibunAddress=#{jibunAddress},
+			</if>
+			<if test=" namujiAddress!='' and namujiAddress!=null">
+				namujiAddress=#{namujiAddress}
+			</if>
+		</set>
+		where
+		user_id=#{user_id}
+	</update>
+</mapper>
+

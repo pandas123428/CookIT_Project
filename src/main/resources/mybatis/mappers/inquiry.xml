@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.InquiryMapper">
+<insert id="insertInquiry">
+    <![CDATA[
+        INSERT INTO service_center
+        (user_id, inquiry_type, inquiry_product, inquiry_title, inquiry_content, inquiry_date, status)
+        VALUES (#{user_id}, #{inquiry_type}, #{inquiry_product}, #{inquiry_title}, #{inquiry_content}, NOW(), '문의대기')
+        ]]>
+    </insert>
+
+    <select id="selectInquiryListByUser" resultType="com.cookit.inquiry.vo.InquiryVO">
+    <![CDATA[
+        SELECT * FROM service_center
+        WHERE user_id = #{user_id}
+        ORDER BY inquiry_date DESC
+        ]]>
+    </select>
+
+    <select id="selectInquiryById" resultType="com.cookit.inquiry.vo.InquiryVO">
+    <![CDATA[
+        SELECT * FROM service_center
+        WHERE inquiry_id = #{inquiry_id}
+        ]]>
+    </select>
+    
+    <select id="selectAllInquiries" resultType="com.cookit.inquiry.vo.InquiryVO">
+    <![CDATA[
+    SELECT * FROM service_center ORDER BY inquiry_date DESC
+    	]]>
+	</select>
+
+    <update id="updateInquiryStatus">
+    <![CDATA[
+        UPDATE service_center SET status = #{status}
+        WHERE inquiry_id = #{inquiry_id}
+        ]]>
+    </update>
+    
+    <update id="updateInquiryAnswer">
+    <![CDATA[
+        UPDATE service_center
+        SET answer_content = #{answer}, status = '문의완료'
+        WHERE inquiry_id = #{inquiry_id}
+    ]]>
+</update>
+
+</mapper>

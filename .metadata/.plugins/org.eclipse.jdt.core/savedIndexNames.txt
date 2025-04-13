@@ -1,0 +1,3 @@
+INDEX VERSION 1.131+C:\Users\PC\Desktop\새 폴더\cookit_project\.metadata\.plugins\org.eclipse.jdt.core
+3461161497.index
+1389845044.index

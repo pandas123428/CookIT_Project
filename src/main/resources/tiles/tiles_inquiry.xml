@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+    <definition name="/inquiry/inquiry" extends="baseLayout">
+       <put-attribute name="title" value="문의 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/inquiry/inquiry.jsp" />
+    </definition>
+    
+     <definition name="/inquiry/inquiryList" extends="baseLayout">
+       <put-attribute name="title" value="문의 내역 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/inquiry/inquiryList.jsp" />
+    </definition>
+    
+     <definition name="/inquiry/inquiryDetail" extends="baseLayout">
+       <put-attribute name="title" value="문의 내역 확인 페이지" />
+       <put-attribute name="body" value="/WEB-INF/view/inquiry/inquiryDetail.jsp" />
+    </definition>
+    
+</tiles-definitions>

@@ -1,0 +1,15 @@
+INDEX VERSION 1.4+C:\Users\PC\Desktop\새 폴더\cookit_project\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+763778523.index
+525454244.index
+4065651941.index
+3550267921.index
+2946333696.index
+3860886593.index
+2636539693.index
+3845147593.index
+699212542.index
+4117209452.index
+779289778.index
+3764481000.index
+3390967999.index
+1389845044.index
